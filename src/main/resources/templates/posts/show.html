@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header.html :: main-head('Post Show Page')"></head>
 <body>
+<nav th:replace="fragments/navbar.html :: mainNav('Wed')">
+    This div will be *replaced* by the fragment
+</nav>
 
+Show an individual post
+<main class="container">
+    <div class="post">
+        <h1 th:text="${post.title}"></h1>
+        <p th:text="${post.body}"></p>
+    </div>
+</main>
+<div>
+    <footer th:replace="fragments/footer.html :: main-footer"></footer>
+</div>
 </body>
 </html>

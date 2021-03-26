@@ -1,36 +1,60 @@
 package com.codeup.spring_blog.controllers;
 
+import com.codeup.spring_blog.models.Post;
+import com.codeup.spring_blog.repo.PostRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class PostController {
 
+    private final PostRepository postDao;
+
+    public PostController(PostRepository postDao) {
+        this.postDao = postDao;
+    }
+
+//    List<Post> posts = new ArrayList<>();
+
     @GetMapping("/posts")
-    @ResponseBody
-    public String allPosts(){
-        return "All Post Here!";
+    public String allPosts(Model viewModel) {
+        List<Post> postsFromDB = postDao.findAll();
+        viewModel.addAttribute("posts", postsFromDB);
+        return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
-    @ResponseBody
-    public String individualPosts(@PathVariable int id){
-        return "Here is post from the id of: " + id + ".";
+    public String individualPosts(@PathVariable int id, Model vModel) {
+        vModel.addAttribute("post", postDao);
+        return "posts/show";
     }
 
 
     @GetMapping("/posts/create")
-    @ResponseBody
-    public String createPosts(){
+    public String createPosts() {
         return "Here is where you create posts";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String createPostsHere(){
-        return "You will submit a post here";
+    public String createPostsHere(Model vModel) {
+        vModel.addAttribute("post", postDao);
+        return "posts";
+    }
+
+    @PostMapping("/posts/delete")
+    public String deletePostsById(@RequestParam long id, Model model) {
+        postDao.deleteById(id);
+        model.addAttribute("posts", postDao.findAll());
+        return "/posts/index";
+    }
+
+    @PostMapping("/post/edit{id}")
+    public String editPostById(@ModelAttribute Post post) {
+        postDao.save(post);
+        return "redirect:/posts";
     }
 }
