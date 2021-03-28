@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: header"></head>
+<head th:include="header.html :: header"></head>
 <body>
-<div th:replace="fragments :: navbar">
+<div th:include="navbar.html :: navbar">
 
 </div>
 
@@ -10,15 +10,19 @@ Show an individual post
 <main class="container">
     <div class="post">
         <form>
-            <h1 th:text="${post.title}"></h1>
-            <p th:text="${post.body}"></p>
+            <h1 th:text="${post.getTitle()}"></h1>
+            <p th:text="${post.getBody()}"></p>
+        </form>
+    </div>
+    <div>
+        <form action="/posts/delete" method="post">
+            <input type="hidden" name="id" th:value="${post.getId()}">
             <button type="submit" id="delete"></button>
-            <button type="submit" id="edit"></button>
         </form>
     </div>
 </main>
 <div>
-    <footer th:replace="fragments :: footer"></footer>
+    <footer th:include="footer.html :: footer"></footer>
 </div>
 </body>
 </html>
