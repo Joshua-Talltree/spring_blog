@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: main-head('All the Posts')">
+<head th:replace="fragments :: header">
     <title>And, Here We Are!</title>
 </head>
 <body>
-<nav th:replace="fragments/navbar :: mainNav('Wed')">
+<div th:replace="fragments :: navbar">
     This div will be *replaced* by the fragment
-</nav>
+</div>
 Show a list of posts
 <main class="container">
     <div class="post" th:each="post : ${posts}">
@@ -15,7 +15,7 @@ Show a list of posts
     </div>
 </main>
 <div>
-    <footer th:replace="/templates/main/partials/fragments/footer :: main-footer"></footer>
+    <footer th:replace="fragements :: footer"></footer>
 </div>
 </body>
 </html>

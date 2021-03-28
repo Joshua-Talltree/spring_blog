@@ -52,7 +52,7 @@ public class PostController {
         return "/posts/index";
     }
 
-    @PostMapping("/post/edit{id}")
+    @PostMapping("/post/edit/{id}")
     public String editPostById(@ModelAttribute Post post) {
         postDao.save(post);
         return "redirect:/posts";
