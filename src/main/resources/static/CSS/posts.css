@@ -1,0 +1,19 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height:100%;
+    position:relative;
+    background-color: lightgreen;
+}
+
+#allPosts {
+    text-decoration: underline;
+}
+
+.footer {
+    position: absolute;
+    left: 0 ; right: 0; bottom: 0;
+    height: 20px;
+}

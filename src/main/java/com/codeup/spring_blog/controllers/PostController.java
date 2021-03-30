@@ -2,20 +2,23 @@ package com.codeup.spring_blog.controllers;
 
 import com.codeup.spring_blog.models.Post;
 import com.codeup.spring_blog.repo.PostRepository;
+import com.codeup.spring_blog.repo.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class PostController {
 
     private final PostRepository postDao;
+    private final UserRepository userDao;
 
-    public PostController(PostRepository postDao) {
+
+    public PostController(PostRepository postDao, UserRepository userDao) {
         this.postDao = postDao;
+        this.userDao = userDao;
     }
 
 //    List<Post> posts = new ArrayList<>();
@@ -28,33 +31,44 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}")
-    public String individualPosts(@PathVariable int id, Model vModel) {
-        vModel.addAttribute("post", postDao);
+    public String individualPosts(@PathVariable Long id, Model vModel) {
+        vModel.addAttribute("post", postDao.getOne(id));
         return "posts/show";
     }
 
 
     @GetMapping("/posts/create")
     public String createPosts() {
-        return "Here is where you create posts";
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String createPostsHere(Model vModel) {
-        vModel.addAttribute("post", postDao);
-        return "posts";
-    }
-
-    @PostMapping("/posts/delete")
-    public String deletePostsById(@RequestParam long id, Model model) {
-        postDao.deleteById(id);
-        model.addAttribute("posts", postDao.findAll());
-        return "/posts/index";
-    }
-
-    @PostMapping("/post/edit/{id}")
-    public String editPostById(@ModelAttribute Post post) {
-        postDao.save(post);
+    public String createPostsHere(@RequestParam("post_title") String title, @RequestParam("post_body") String body) {
+        Post postToSave = new Post(title, body);
+        postDao.save(postToSave);
         return "redirect:/posts";
+    }
+
+
+    @GetMapping("/posts/{id}/update")
+    public String updateAdForm(@PathVariable Long id, Model model){
+        Post postsFromDB = postDao.getOne(id);
+        model.addAttribute("oldPost", postsFromDB);
+        return "posts/update";
+    }
+
+    @PostMapping("/post/{id}/update")
+    @ResponseBody
+    public String updatePost(@PathVariable Long id, @RequestParam("post_title") String title, @RequestParam("post_body") String body){
+        Post postToSave = new Post(id, title, body);
+        postDao.save(postToSave);
+        return "redirect/posts";
+    }
+
+    @PostMapping("/posts/{id}/delete")
+    @ResponseBody
+    public String deletePost(@PathVariable Long id) {
+        postDao.deleteById(id);
+        return "post deleted";
     }
 }

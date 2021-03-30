@@ -7,12 +7,19 @@
 <div>
     <nav th:include="posts/navbar.html :: navbar"></nav>
 </div>
-<h1>This is a test!</h1>
-<p>Show a list of posts</p>
-<main class="container">
-    <div class="post" th:each="post : ${posts}">
-        <h1 th:text="${post.title}"></h1>
-        <p th:text="${post.body}"></p>
+
+<main class="container col-6">
+    <h1 id="allPosts">See All Posts Here:</h1>
+    <br>
+    <div class="card text-white bg-warning mb-3 col-6 row" style="max-width: 300rem;">
+        <div class="card-header">
+            <div class="post" th:each="post : ${posts}">
+                <h5 class="card-title" th:text="${post.title}"></h5>
+                <div class="card-body">
+                    <p class="card-text" th:text="${post.body}"></p>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 <div>
@@ -20,3 +27,9 @@
 </div>
 </body>
 </html>
+
+
+
+
+
+
