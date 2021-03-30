@@ -16,7 +16,8 @@ public class Post {
     @Column(name = "body", columnDefinition = "TEXT", length = 3000, nullable = false)
     private String body;
 
-    @OneToOne
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
     private User owner;
 
     public Post(String title, String body, User owner) {
@@ -71,5 +72,7 @@ public class Post {
     public void setOwner(User owner) {
         this.owner = owner;
     }
+
+
 }
 

@@ -39,33 +39,33 @@ public class PostController {
 
 
     @GetMapping("/posts/create")
-    public String createPosts() {
+    public String createPosts(Model model) {
+        model.addAttribute("post", new Post());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String createPostsHere(@RequestParam("post_title") String title, @RequestParam("post_body") String body) {
-        Post postToSave = new Post(title, body);
-        User user = userDao.getOne(1L);
-        postDao.save(postToSave);
-        postToSave.setOwner(user);
+    public String createPostsHere(@ModelAttribute Post post) {
+        User userToAdd = userDao.getOne(2L);
+
+        post.setOwner(userToAdd);
+
+        postDao.save(post);
         return "redirect:/posts";
     }
 
 
     @GetMapping("/posts/{id}/update")
-    public String updateAdForm(@PathVariable Long id, Model model){
-        Post postsFromDB = postDao.getOne(id);
-        model.addAttribute("oldPost", postsFromDB);
+    public String updateAdForm(Model model, @PathVariable Long id){
+        model.addAttribute("oldPost", postDao.getOne(id));
         return "posts/update";
     }
 
     @PostMapping("/post/{id}/update")
     @ResponseBody
-    public String updatePost(@PathVariable Long id, @RequestParam("post_title") String title, @RequestParam("post_body") String body){
-        Post postToSave = new Post(id, title, body);
-        postDao.save(postToSave);
-        return "redirect/posts";
+    public String updatePost(@ModelAttribute Post post){
+        postDao.save(post);
+        return "redirect:/posts";
     }
 
     @PostMapping("/posts/{id}/delete")
@@ -73,5 +73,13 @@ public class PostController {
     public String deletePost(@PathVariable Long id) {
         postDao.deleteById(id);
         return "post deleted";
+    }
+
+    @GetMapping("/posts/search")
+    public String searchByKeyword(Model model, @RequestParam(name = "search") String term){
+        List<Post> posts = postDao.searchByBodyLike(term);
+        model.addAttribute("posts", posts);
+
+        return "posts/index";
     }
 }

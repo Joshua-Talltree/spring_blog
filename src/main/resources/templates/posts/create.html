@@ -6,20 +6,21 @@
 <body>
 <div th:include="posts/navbar.html :: navbar"></div>
 <div class="container">
-    <form action="/posts/create" method="post">
+    <form th:action="@{/posts/create}" th:method="post" th:object="${post}">
 
         <h2>Create your post here:</h2>
         <br>
         <div class="form-group">
             <label for="title">Title</label>
-            <input name="post_title" class="form-control" id="title" placeholder="Title" type="text">
+            <input th:field="*{title}" name="post_title" class="form-control" id="title" placeholder="Title" type="text">
         </div>
         <div class="form-group">
             <label for="body">Body</label>
-            <textarea name="post_body" class="form-control" id="body" placeholder="Body" rows="3"></textarea>
+            <textarea th:field="*{body}" name="post_body" class="form-control" id="body" placeholder="Body" rows="3"></textarea>
         </div>
         <button type="submit" class="btn btn-success">Create</button>
     </form>
 </div>
 </body>
 </html>
+

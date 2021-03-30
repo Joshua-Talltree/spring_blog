@@ -6,17 +6,17 @@
 <body>
 <div th:include="posts/navbar.html :: navbar"></div>
 <div class="container">
-    <form th:action="${'/posts/' + oldPost.id + '/update'}" method="post">
+    <form th:action="@{'/posts/' + oldPost.id + '/update'}" th:method="post" th:object="${oldPost}">
 
         <h2>Update your post here:</h2>
         <br>
         <div class="form-group">
             <label for="title">Title</label>
-            <input name="post_title" id="title" type="text" th:value="${oldPost.title}">
+            <input th:field="*{title}" name="post_title" id="title" type="text">
         </div>
         <div class="form-group">
             <label for="body">Body</label>
-            <textarea name="post_body" class="form-control" id="body" th:value="${oldPost.body}" placeholder="Body" rows="3"></textarea>
+            <textarea th:field="*{body}" name="post_body" class="form-control" id="body" placeholder="Body" rows="3"></textarea>
         </div>
         <button type="submit" class="btn btn-success">Update</button>
     </form>
