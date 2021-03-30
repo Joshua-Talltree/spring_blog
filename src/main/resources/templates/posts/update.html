@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="posts/header.html :: header">
-
+    <title></title>
 </head>
 <body>
-
-<div>
-    <nav th:include="posts/navbar.html :: navbar"></nav>
-</div>
-
+<div th:include="posts/navbar.html :: navbar"></div>
 <div class="container">
-    <h2>Update your post here:</h2>
-    <br>
     <form th:action="${'/posts/' + oldPost.id + '/update'}" method="post">
+
+        <h2>Update your post here:</h2>
+        <br>
         <div class="form-group">
             <label for="title">Title</label>
             <input name="post_title" id="title" type="text" th:value="${oldPost.title}">

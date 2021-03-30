@@ -12,6 +12,7 @@ Show an individual post
         <form>
             <h1 th:text="${post.title}"></h1>
             <p th:text="${post.body}"></p>
+            <p>This post was created by: <span th:text="${post.owner.email}"></span></p>
         </form>
     </div>
     <div>
