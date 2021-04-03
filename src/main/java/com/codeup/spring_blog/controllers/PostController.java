@@ -5,6 +5,7 @@ import com.codeup.spring_blog.models.User;
 import com.codeup.spring_blog.repo.PostRepository;
 import com.codeup.spring_blog.repo.UserRepository;
 import com.codeup.spring_blog.services.EmailServices;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +16,15 @@ import java.util.List;
 public class PostController {
 
     private final PostRepository postDao;
-    private final UserRepository userDao;
     private final EmailServices emailService;
+    private final UserRepository userDao;
 
 
     public PostController(PostRepository postDao, UserRepository userDao, EmailServices emailService) {
         this.postDao = postDao;
-        this.userDao = userDao;
         this.emailService = emailService;
+        this.userDao = userDao;
     }
-
-//    List<Post> posts = new ArrayList<>();
 
     @GetMapping("/posts")
     public String allPosts(Model viewModel) {
@@ -49,7 +48,8 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String createPostsHere(@ModelAttribute Post postToCreate) {
-        User userToAdd = userDao.getOne(2L);
+
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // save the post
         postDao.save(postToCreate);
         // set the user
@@ -66,13 +66,15 @@ public class PostController {
         return "posts/create";
     }
 
-    @PostMapping("/post/{id}/update")
-    public String updatePost(@ModelAttribute Post postToUpdate, @PathVariable Long id){
-        User userToAdd = userDao.getOne(2L);
+    @PostMapping("/posts/{id}/update")
+    public String updatePost(@ModelAttribute Post postToUpdate, @PathVariable String id){
 
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-
-        postToUpdate.setId(id);
+        System.out.println(id);
+        System.out.println(userToAdd.getUsername());
+        System.out.println(postToUpdate.getTitle());
+        postToUpdate.setId(Long.parseLong(id));
 
         // set the user
         postToUpdate.setOwner(userToAdd);

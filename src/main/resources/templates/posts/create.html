@@ -5,16 +5,11 @@
 </head>
 <body>
 <div th:include="posts/navbar.html :: navbar"></div>
-
 <div class="container">
     <th:block th:if="${post.id == null}">
-
-
         <form th:action="@{/posts/create}" th:method="post" th:object="${post}">
-
             <h2>Create your post here:</h2>
             <br>
-
             <div class="form-group">
                 <label for="title">Title</label>
                 <input th:field="*{title}" name="post_title" class="form-control" id="title" placeholder="Title"
@@ -27,17 +22,12 @@
             </div>
             <button type="submit" class="btn btn-success">Create</button>
         </form>
-
-
     </th:block>
 </div>
 
 <div class="container">
     <th:block th:unless="${post.id == null}">
-
-
-        <form th:action="@{'/posts/{' + ${post.id} + '}/update'}" th:method="post" th:object="${post}">
-
+        <form th:action="${'/posts/' + post.id + '/update'}" th:method="post" th:object="${post}">
             <h2>Update your post here:</h2>
             <br>
             <div class="form-group">
@@ -51,9 +41,10 @@
             </div>
             <button type="submit" class="btn btn-success">Update</button>
         </form>
-
-
     </th:block>
+</div>
+<div>
+    <footer th:replace="posts/footer :: footer"></footer>
 </div>
 </body>
 </html>

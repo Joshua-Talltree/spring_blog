@@ -1,19 +1,24 @@
-html {
-    height: 100%;
-}
-
 body {
-    min-height:100%;
-    position:relative;
-    background-color: lightgreen;
+    height: 100%;
+    background-color: royalblue;
 }
 
 #allPosts {
     text-decoration: underline;
 }
 
+.content {
+    min-height: 100%;
+}
+
+.content-inside {
+    padding: 20px 20px 50px 20px;
+}
+
 .footer {
-    position: absolute;
-    left: 0 ; right: 0; bottom: 0;
-    height: 20px;
+    background-color: lightsteelblue;
+    position: -webkit-sticky;
+    text-align: center;
+    height: 50px;
+    margin-top: 600px;
 }

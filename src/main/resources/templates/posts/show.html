@@ -1,28 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="posts/header.html :: header">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="posts/header.html :: header">
     <title>Show Page</title>
-    <link rel="stylesheet" href="../posts.css">
 </head>
 <body>
 <div th:include="posts/navbar.html :: navbar"></div>
-Show an individual post
-<main class="container">
-    <div class="post">
-        <form>
-            <h1 th:text="${post.title}"></h1>
-            <p th:text="${post.body}"></p>
-            <p>This post was created by: <span th:text="${post.owner.email}"></span></p>
-        </form>
+<div class="container">
+    <h1 class="text-center">Show an individual post:</h1>
+    <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-header">
+            <h5 class="card-title" th:text="${post.title}"></h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text" th:text="${post.body}"></p>
+        </div>
     </div>
-    <div>
-        <form th:action="${'/posts/' + post.id + '/delete'}" method="post">
+    <div class="row">
+        <form class="mr-1" th:action="${'/posts/' + post.id + '/delete'}" method="post">
             <button type="submit" class="btn btn-danger">Delete</button>
         </form>
+        <br>
+        <form th:action="${'/posts/' + post.id + '/update'}" method="get">
+            <button type="submit" class="btn btn-success">Update</button>
+        </form>
     </div>
-</main>
+</div>
 <div>
-    <footer th:include="posts/footer.html :: footer"></footer>
+    <footer th:replace="posts/footer :: footer"></footer>
 </div>
 </body>
 </html>
+
+<!--<div class="post" th:each="post : ${posts}">-->
+<!--    <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">-->
+<!--        <img src="..." class="card-img-top" alt="...">-->
+<!--        <div class="card-header">-->
+<!--            <h5 class="card-title" th:text="${post.title}"></h5>-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--            <p class="card-text" th:text="${post.body}"></p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

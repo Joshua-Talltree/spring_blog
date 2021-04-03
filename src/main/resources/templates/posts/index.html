@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="posts/header :: header">
     <title>And, Here We Are!</title>
 </head>
@@ -7,22 +7,29 @@
 <div>
     <nav th:include="posts/navbar.html :: navbar"></nav>
 </div>
+<div sec:authorize="isAuthenticated()">
+    This content is only shown to authenticated users.
+
+    User ID: <span th:text="${#authentication.principal.id}"/>
+    Username: <span th:text="${#authentication.principal.username}"/>
+    Email: <span th:text="${#authentication.principal.email}"/>
+</div>
 
 <main class="container">
-    <h1 id="allPosts">See All Posts Here:</h1>
+    <h1 class="text-center">See All Posts Here:</h1>
     <br>
-    <div class="card text-white bg-warning mb-3 row" style="max-width: 300rem;">
-        <hr>
-        <div class="card-header">
-            <div class="post" th:each="post : ${posts}">
+    <div class="post" th:each="post : ${posts}">
+        <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-header">
                 <h5 class="card-title" th:text="${post.title}"></h5>
-                <hr>
-                <div class="card-body">
-                    <p class="card-text" th:text="${post.body}"></p>
-                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-text" th:text="${post.body}"></p>
             </div>
         </div>
     </div>
+
 </main>
 <div>
     <footer th:replace="posts/footer :: footer"></footer>
