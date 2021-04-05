@@ -8,12 +8,10 @@
     <nav th:include="posts/navbar.html :: navbar"></nav>
 </div>
 <div sec:authorize="isAuthenticated()">
-    This content is only shown to authenticated users.
+   <h2>Welcome <span th:text="${#authentication.principal.username}"/></h2></div>
+<!--    <span class="hidden" th:text="${#authentication.principal.id}"/>-->
+<!--    <span class="hidden" th:text="${#authentication.principal.email}"/>-->
 
-    User ID: <span th:text="${#authentication.principal.id}"/>
-    Username: <span th:text="${#authentication.principal.username}"/>
-    Email: <span th:text="${#authentication.principal.email}"/>
-</div>
 
 <main class="container">
     <h1 class="text-center">See All Posts Here:</h1>
