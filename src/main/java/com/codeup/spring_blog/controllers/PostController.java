@@ -93,9 +93,8 @@ public class PostController {
 
     @GetMapping("/posts/search")
     public String searchByKeyword(Model model, @RequestParam(name = "search") String term){
-        List<Post> posts = postDao.searchByBodyLike(term);
-        model.addAttribute("posts", posts);
-
+        model.addAttribute("posts",postDao.searchByBodyLike(term))  ;
+        model.addAttribute("posts", postDao.findAll());
         return "posts/index";
     }
 }
