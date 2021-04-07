@@ -16,10 +16,10 @@
 <main class="container">
     <h1 class="text-center">See All Posts Here:</h1>
     <br>
-    <div class="post" th:each="post : ${posts}">
-        <div class="card text-black bg-light mb-3 row" style="max-width: 300rem;">
-            <div th:each="image : ${post.images}">
-                <img th:src="${image.url}" class="card-img-top" src="" alt="...">
+    <div class="post">
+        <div class="card text-black bg-light mb-3 row" th:each="post : ${posts}" style="max-width: 300rem;">
+            <div>
+                <img  th:if="${post.images.size()>0}" class="card-img-top" src="" alt="..." th:src="${post.images.get(0).getUrl()}">
             </div>
             <div sec:authorize="isAuthenticated()" class="card-header">
                 <a th:href="@{/posts/__${post.id}__}"><h5 class="card-title" th:text="${post.title}"></h5></a>
